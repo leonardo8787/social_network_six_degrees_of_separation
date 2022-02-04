@@ -2,54 +2,41 @@
 
 int main(){
 
-	int a, b, tam, op;
 	int adj[]={};
+	int cont=0;
 
-	printf("\n===========GRAFO============\n");
-	//printf("\n\nDigite o tamanho do grafo:\n");
-	//scanf("%d",&tam);
-	//system("pause");
+	system("clear");
+	printf("\n===========GRAFO============\n\n\n");
 	Graph G = GraphInitialize(10);
-/*
-	printf("Menu\n");
-	printf("1 - inserir no grafo\n");
-	printf("2 - remover do grafo\n");
-	printf("3 - printar grafo\n");
-	printf("0 - sair\n");
-	scanf("%d", &op);
-	switch (op)
-	{
-	case 0: 
-		printf("saindo...\n");
-		break;
-	case 1:
-		printf("inserir no grafo!\n");
-		system("read -p \"\nPressione enter para continuar...\" continue");
-		for(int i=1; i<tam; i++){
-			for(int j=1; j<tam; i++){
-				printf("Digite o caminho\n");
-				cout << "início: \n" << endl;
-				cin >> adj[i];
-				cout << "fim: \n" << endl;
-				cin >> adj[j];
-				cout << "\n" << endl;
-				GraphInsertEdge(G, G->adj[i], G->adj[j]);
-				system("read -p \"\nPressione enter para continuar...\" continue");
-			}
-		}
-		break;
-	case 2:
-		printf("remover no grafo!\n");
-		break;
-	case 3:
-		printf("printar grafo!\n");
-		ImprimeGraph(G);
-		break;
-	default:
-		printf("Escolha uma opção válida");
-	}
-*/
 
+	printf("inserir no grafo!\n");
+	printf("0 - leonardo\n");
+	printf("1 - joão\n");
+	printf("2 - marcelo\n");
+	printf("3 - marcos\n");
+	printf("4 - maria\n");
+	printf("5 - gabriel\n");
+	printf("6 - daniel\n");
+	printf("7 - weslei\n");
+	printf("8 - lindomar\n");
+	printf("9 - judite\n");
+	system("read -p \"\nPressione enter para continuar...\" continue");
+	for(int i=0; i<9; i++){
+		for(int j=0; j<9; j++){
+			printf("contador: %d\n", cont+=1);
+			printf("Digite o caminho\n");
+			printf("\nInício:");
+			scanf("%d",&adj[i]);
+			printf("\nfim:");
+			scanf("%d",&adj[j]);
+			GraphInsertEdge(G, G->adj[i], G->adj[j]);
+			printf("\nLigações\n");
+			ImprimeGraph(G);
+			system("read -p \"\nPressione enter para continuar...\" continue");
+		}
+	}
+
+/*
 	GraphInsertEdge(G, G->adj[0], G->adj[2]);
 	GraphInsertEdge(G, G->adj[0], G->adj[1]);
 	GraphInsertEdge(G, G->adj[1], G->adj[0]);
@@ -70,7 +57,7 @@ int main(){
 	GraphInsertEdge(G, G->adj[6], G->adj[7]);
 	GraphInsertEdge(G, G->adj[7], G->adj[6]);
 	GraphInsertEdge(G, G->adj[7], G->adj[5]);
-
+*/
 	printf("\nLigações\n");
 	ImprimeGraph(G);
 
