@@ -1,11 +1,10 @@
 #include "graph_bfs_dfs.h"
 
-//// procs FILA
-
 Fila* FFVazia_DFS(){
-  Fila *f = (Fila*) malloc(sizeof(Fila));
+  Fila *f = (Fila *)malloc(sizeof(Fila));
   f->head = NULL;
   f->tail = NULL;
+  f->size = 0;
   return f;
 }
 
@@ -38,10 +37,6 @@ Item* Dequeue_DFS(Fila *f){
   return aux;
 }
 
-//// fim procs FILA
-
-
-// procs para tratar com grafos 
 Vertex VertexInitialize_DFS(int value){
   Vertex v = (Vertex)malloc (sizeof(Vertex));
   v->value = value;
@@ -50,76 +45,49 @@ Vertex VertexInitialize_DFS(int value){
 }
 
 Graph GraphInitialize_DFS(int V){
-  Graph G = (Graph)malloc (sizeof(Graph));
+  Graph G = (Graph)malloc(sizeof(Graph));
   G->V = V;
   G->E = 0;
-  G->adj = (Vertex*)malloc(V * sizeof(Vertex));
-
-  for(int v=0; v<V; v++)
-    G->adj[v] = VertexInitialize_DFS(v);
-
+  G->adj = (Vertex **)malloc(V * sizeof(Vertex *));
+  for (int i = 0; i < V; i++) {
+    G->adj[i] = (Vertex *)malloc(V * sizeof(Vertex));
+    for (int j = 0; j < V; j++) {
+      G->adj[i][j] = VertexInitialize_DFS(0);
+    }
+  }
   return G;
 }
 
 void GraphInsertEdge_DFS(Graph G, Vertex v1, Vertex v2){
-  Vertex v = G->adj[v1->value];
-  
-  while(v->prox != NULL){
-    if (v->value == v2->value)
-      return;
-    v = v->prox;
+  if (G->adj[v1->value][v2->value]->value == 1) {
+    return;
   }
-
-  v->prox = VertexInitialize_DFS(v2->value);
-  G->E ++;
+  G->adj[v1->value][v2->value]->value = 1;
+  G->E++;
 }
 
-void ImprimeGraph_DFS(Graph G){
-  Vertex aux;
-
-  for(int v=0; v<G->V; v++){
-    aux = G->adj[v];
-
-    while(aux != NULL){
-      printf(" %d -> ", aux->value);
-      aux = aux->prox;
-    }
-
-    printf("\n");
-  }
-  
-}
-
-
-// fim procs para tratar com grafos
-void DFS_VISIT_DFS(Graph G, Vertex v, int *cor, int *d, int *f, int *tempo){
-  cor[v->value]  = 1;
-  *tempo        += 1;
-  d[v->value]    = *tempo;
-
-  for(Vertex u = G->adj[v->value]; u != NULL; u=u->prox)
-    if(cor[u->value] == 0)
-      DFS_VISIT_DFS(G, u, cor, d, f, tempo);
-
-
-  cor[v->value] = 2;
+void DFS_VISIT(Graph G, Vertex *v, int index, int *cor, int *d, int *f,int *tempo){
+  cor[index] = 1;
   *tempo += 1;
-  f[v->value] = *tempo;
-  printf("Vertex:%d D:%d, F:%d \n", v->value, d[v->value], f[v->value]);
+  d[index] = *tempo;
+  for (int u = 0; u < G->V; u++) {
+    if (v[u]->value == 1 && cor[u] == 0) {
+      DFS_VISIT(G, G->adj[u], u, cor, d, f, tempo);
+    }
+  }
+  cor[index] = 2;
+  *tempo += 1;
+  f[index] = *tempo;
+  printf("Vertex:%3d D:%3d F:%3d\n", index, d[index], f[index]);
 }
 
 void DFS(Graph G){
-  int cor[G->V]; // Branco 0, Cinza 1, Preto 2
-  int d[G->V];   // Tempo de descoberta
-  int f[G->V];   // Tempo de finalização
+  int cor[G->V]; 
+  int d[G->V];    
+  int f[G->V];    
   int tempo = 0;
-
-  for(int v=0; v<G->V; v++)
-    cor[v] = 0;
-
-  for(int v=0; v<G->V; v++)
-    if(cor[v] == 0)
-      DFS_VISIT_DFS(G, G->adj[v], cor, d, f, &tempo);
+  for (int v = 0; v < G->V; v++) cor[v] = 0;
+  for (int v = 0; v < G->V; v++)
+    if (cor[v] == 0)
+      DFS_VISIT(G, G->adj[v], v, cor, d, f, &tempo);
 }
-
-
