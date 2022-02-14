@@ -3,6 +3,7 @@
 
 #include<stdlib.h>
 #include<stdio.h>
+#include<time.h>
 #include<string.h>
 
 typedef struct graph *Graph;
@@ -60,5 +61,7 @@ Item* Dequeue_DFS(Fila *f);
 
 void DFS(Graph G);
 void DFS_VISIT(Graph G, Vertex *v, int index, int *cor, int *d, int *f, int *tempo);
+void ImprimeGrau(Graph G);
+void Aperto_de_mao(Graph G);
 
 #endif

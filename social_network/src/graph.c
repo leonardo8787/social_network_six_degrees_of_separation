@@ -29,8 +29,17 @@ void GraphInsertEdge(Graph G, Vertex v1, Vertex v2) {
 }
 
 void ImprimeGraph(Graph G) {
+  int grau=0;
+  char map_letra[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+  printf("   ");
+  for (int j = 0; j < G->V; j++) {
+    //printf("[%2d]", j);
+    printf("[ %c]", map_letra[j]);
+  }
+  printf("\n\n");
   for (int i = 0; i < G->V; i++) {
-    printf("[%2d]-> ", i);
+    //printf("[%2d]-> ", i);
+    printf("[%c]", map_letra[i]);
     for (int j = 0; j < G->V; j++) {
       if (G->adj[i][j]->value == 1) {
         printf("[ 1]");
@@ -42,4 +51,37 @@ void ImprimeGraph(Graph G) {
     }
     printf("\n");
   }
+}
+
+void ImprimeGrau(Graph G) {
+  int grau=0;
+  for (int i = 0; i < G->V; i++) {
+    for (int j = 0; j < G->V; j++) {
+      if (G->adj[i][j]->value == 1) {
+        grau += 1;
+      }
+    }
+  }
+  printf("grau: %d", grau);
+}
+
+void Aperto_de_mao(Graph G) {
+  int grau=0;
+  int comprimento=0;
+  for (int j = 0; j < G->V; j++) {
+    //printf("[%2d]", j);
+  }
+  for (int i = 0; i < G->V; i++) {
+    //printf("[%2d]-> ", i);
+    for (int j = 0; j < G->V; j++) {
+      if (G->adj[i][j]->value == 1) {
+        //printf("[ 1]");
+      } else if (G->adj[i][j]->value == -1) {
+        //printf("[-1]");
+      } else {
+        //printf("[  ]");
+      }
+    }
+  }
+  printf("\n 'A' está a %d apertos de mão de distância de 'D' \n",comprimento);
 }

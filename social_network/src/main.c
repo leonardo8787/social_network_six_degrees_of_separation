@@ -2,13 +2,7 @@
 
 int main(){
 
-	int adj[10][10] = {};
-	int cont=0;
-	int numero;
 	int op;
-	char letras[] = {"ABCDEFGHIJKLMNOPKRSTUVWXYZ"};
-	int teste2=5;
-	char teste1[]="A", teste3[]="E";
 
 	system("clear");
 	printf("\n===========GRAFO============\n");
@@ -16,48 +10,103 @@ int main(){
 	printf("Engenharia de Computação\n");
 	printf("Leonardo Campos\n");
 	printf("\n\n\n");
-	Graph G = GraphInitialize(10);
+	printf("Matriz de Adjacência\n");
 
-	GraphInsertEdge(G, G->adj[0][1], G->adj[0][2]);
-	GraphInsertEdge(G, G->adj[1][0], G->adj[1][4]);
-	GraphInsertEdge(G, G->adj[1][2], G->adj[2][2]);
-	GraphInsertEdge(G, G->adj[2][3], G->adj[2][4]);
-	GraphInsertEdge(G, G->adj[2][5], G->adj[4][3]);
-	GraphInsertEdge(G, G->adj[3][6], G->adj[4][6]);
-	GraphInsertEdge(G, G->adj[5][7], G->adj[5][8]);
-	GraphInsertEdge(G, G->adj[5][2], G->adj[5][1]);
-	GraphInsertEdge(G, G->adj[8][3], G->adj[6][9]);
-	GraphInsertEdge(G, G->adj[9][3], G->adj[9][3]);
+	FILE *file1, *file2, *file3;
+	Graph G = GraphInitialize(10);
+	Vertex v1, v2;
+	v1 = (Vertex)malloc(sizeof(Vertex));
+	v2 = (Vertex)malloc(sizeof(Vertex));
+	char line[100];
+	char *tok;
+	char limite[] = ",\n";
+	clock_t t;
+	char map_letra[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
+
+	file1 = fopen("src/pequeno.txt", "r");
+	file2 = fopen("src/medio.txt","r");
+	file3 = fopen("src/grande.txt","r");
+
+	//GraphInsertEdge(G, G->adj[0][1], G->adj[0][2]);
+	//GraphInsertEdge(G, G->adj[1][0], G->adj[1][4]);
+	//GraphInsertEdge(G, G->adj[1][2], G->adj[2][2]);
+	//GraphInsertEdge(G, G->adj[2][3], G->adj[2][4]);
+	//GraphInsertEdge(G, G->adj[2][5], G->adj[4][3]);
+	//GraphInsertEdge(G, G->adj[3][6], G->adj[4][6]);
+	//GraphInsertEdge(G, G->adj[5][7], G->adj[5][8]);
+	//GraphInsertEdge(G, G->adj[5][2], G->adj[5][1]);
+	//GraphInsertEdge(G, G->adj[8][3], G->adj[6][9]);
+	//GraphInsertEdge(G, G->adj[9][3], G->adj[9][3]);
 
 	do{
 		printf("\nInserções realizadas, escolha uma opção: \n");
 		printf("0 - sair\n");
-		printf("1 - Ligações\n");
-		printf("2 - Busca em Largura\n");
-		printf("3 - Busca em profundidade\n");
-		printf("4 - Apertos de mão\n");
+		printf("1 - inserção - pequena\n");
+		printf("2 - Ligações do grafo\n");
+		printf("3 - Busca em Largura\n");
+		printf("4 - Busca em profundidade\n");
+		printf("5 - limpar a tela\n");
+		printf("6 - Imprime grau\n");
+		printf("7 - distância em zona de influência\n");
 		scanf("%d", &op);
 
 		switch(op){
 			case 0: 
 				return 0;
 			case 1:
-				printf("\n========Ligações=======\n");
-				ImprimeGraph(G);
+				if (file1 == NULL) {
+					printf("Erro ao abrir o arquivo!\n");
+					return 0;
+				}
+				printf("Inserindo elementos...\n");
+				t=clock();
+				while ((fgets(line, 100, file1)) != NULL) {
+					tok = strtok(line, limite);
+					int numero = atoi(tok);
+					v1->value = numero;
+					while ((tok = strtok(NULL, limite)) != NULL) {
+					v2->value = atoi(tok);
+					GraphInsertEdge(G, v1, v2);
+					}
+				}
+				t=clock() - t;
+				printf("Tempo de execucao: %lf\n", ((double)t)/((CLOCKS_PER_SEC/1000)));
 				break;
 			case 2:
-				printf("\nBFS(Busca em largura)===========\n");
-				BFS(G, G->adj[0][0]);
+				printf("\n========Ligações=======\n");
+				t=clock();
+				ImprimeGraph(G);
+				t=clock() - t;
+				printf("Tempo de execucao: %lf\n", ((double)t)/((CLOCKS_PER_SEC/1000)));
 				break;
 			case 3:
-				printf("\nDFS(Busca em profundidade)======\n");
-				DFS(G);
+				printf("\nBFS(Busca em largura)===========\n");
+				t=clock();
+				BFS(G, v1);
+				t=clock() - t;
+				printf("Tempo de execucao: %lf\n", ((double)t)/((CLOCKS_PER_SEC/1000)));
 				break;
-			case 4: 
-				printf("\n'%s' está a '%d' apertos de mão de '%s'\n", teste1, teste2, teste3);
+			case 4:
+				printf("\nDFS(Busca em profundidade)======\n");
+				t=clock();
+				DFS(G);
+				t=clock() - t;
+				printf("Tempo de execucao: %lf\n", ((double)t)/((CLOCKS_PER_SEC/1000)));
+			case 5:
+				system("clean");
+				break;
+			case 6:
+				ImprimeGrau(G);
+				break;
+			case 7:
+				Aperto_de_mao(G);
 				break;
 			default:
 				printf("Digite um valor válido!");	
 		}
 	}while(op != 0);
+
+	fclose(file1);
+	fclose(file2);
+	fclose(file3);
 }
