@@ -67,21 +67,34 @@ void ImprimeGrau(Graph G) {
 
 void Aperto_de_mao(Graph G) {
   int grau=0;
+  int grafo[10][10]={};
   int comprimento=0;
-  for (int j = 0; j < G->V; j++) {
-    //printf("[%2d]", j);
-  }
+  char map_letra[] = {"ABCDEFGHIJKLMNOPQRSTUVWXYZ"};
   for (int i = 0; i < G->V; i++) {
-    //printf("[%2d]-> ", i);
     for (int j = 0; j < G->V; j++) {
       if (G->adj[i][j]->value == 1) {
-        //printf("[ 1]");
-      } else if (G->adj[i][j]->value == -1) {
-        //printf("[-1]");
-      } else {
-        //printf("[  ]");
+        grau += 1;
+        if (G->adj[j][i]->value == 1){
+          comprimento += 1;
+        }
       }
     }
   }
-  printf("\n 'A' está a %d apertos de mão de distância de 'D' \n",comprimento);
+  printf("\n\nExistem %d pessoas que conhecem todas as outras no universo em questão! \n",comprimento);
+  printf("existem %d conexões nessa rede!\n\n\n", grau);
+/*
+  for(int i=0;i<10;i++){
+        printf("Amigos de %c:\t", map_letra[i]);
+        for(int j=0;j<10;j++){
+            if(G->adj[i][j]->value != -1){
+                if(map_letra[i] == map_letra[grafo[i][j]]){
+                    printf("\t");
+                }else{
+                    printf("%c\t", map_letra[grafo[i][j]]);
+                }
+            }
+        }
+        printf("\n");
+  }
+*/
 }

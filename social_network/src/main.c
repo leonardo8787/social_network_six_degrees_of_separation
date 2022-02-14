@@ -43,11 +43,7 @@ int main(){
 		printf("0 - sair\n");
 		printf("1 - inserção - pequena\n");
 		printf("2 - Ligações do grafo\n");
-		printf("3 - Busca em Largura\n");
-		printf("4 - Busca em profundidade\n");
-		printf("5 - limpar a tela\n");
-		printf("6 - Imprime grau\n");
-		printf("7 - distância em zona de influência\n");
+		printf("3 - distância em zona de influência\n");
 		scanf("%d", &op);
 
 		switch(op){
@@ -80,25 +76,6 @@ int main(){
 				printf("Tempo de execucao: %lf\n", ((double)t)/((CLOCKS_PER_SEC/1000)));
 				break;
 			case 3:
-				printf("\nBFS(Busca em largura)===========\n");
-				t=clock();
-				BFS(G, v1);
-				t=clock() - t;
-				printf("Tempo de execucao: %lf\n", ((double)t)/((CLOCKS_PER_SEC/1000)));
-				break;
-			case 4:
-				printf("\nDFS(Busca em profundidade)======\n");
-				t=clock();
-				DFS(G);
-				t=clock() - t;
-				printf("Tempo de execucao: %lf\n", ((double)t)/((CLOCKS_PER_SEC/1000)));
-			case 5:
-				system("clean");
-				break;
-			case 6:
-				ImprimeGrau(G);
-				break;
-			case 7:
 				Aperto_de_mao(G);
 				break;
 			default:
